@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Bar and Pie Charts</title>
+
+		<style>
+			.chart-container {
+				height: 400px;
+				width: 45%;
+				margin: 10px;
+			}
+			.Linechart-wrapper {
+				width: 100%;
+			}
+
+			.charts-wrapper {
+				width: 80%;
+				margin: 0 auto;
+				display: flex;
+				justify-content: space-between;
+				flex-wrap: wrap;
+			}
+			.charts-heading {
+				text-align: center;
+				font-family: sans-serif;
+			}
+			@media (min-width: 300px) and (max-width: 500px) {
+				.charts-wrapper {
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+				}
+				.chart-container {
+					width: 80%;
+					margin: 30px 0;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<h1 class="charts-heading">Livinglab Admin</h1>
+
+		<div class="charts-wrapper">
+			<div class="Linechart-wrapper">
+				<canvas id="lineChart" style="width: 100%; height: 400px"></canvas>
+			</div>
+			<div class="chart-container">
+				<canvas id="pieChart"></canvas>
+			</div>
+			<div class="chart-container">
+				<canvas id="barChart"></canvas>
+			</div>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+		<script>
+			Chart.register(ChartDataLabels);
+
+			// Bar chart data
+			var barChartData = {
+				labels: [
+					"WorkFlow AI",
+					"Dowell Chat",
+					"Wifi QR Code",
+					"Dowell MAp",
+					"Scale",
+				],
+
+				datasets: [
+					{
+						label: "Users",
+						data: [50, 80, 40, 60, 130, 160],
+						backgroundColor: "#4F81BD",
+						borderColor: "#4F81BD",
+						borderWidth: 1,
+					},
+				],
+			};
+
+			var linedata = {
+				labels: ["January", "February", "March", "April", "May", "June"],
+				datasets: [
+					{
+						label: "Dataset",
+						data: [10, 25, 30, 6, 76, 95],
+						fill: false,
+						borderColor: "#FF4069",
+						tension: 0.1,
+					},
+				],
+			};
+
+			// Create the line chart
+			var ctx = document.getElementById("lineChart").getContext("2d");
+			var chart = new Chart(ctx, {
+				type: "line",
+				data: linedata,
+				options: {
+					responsive: true,
+					scales: {
+						y: {
+							beginAtZero: true,
+						},
+					},
+					plugins: {
+
+            datalabels: {
+							color: "black",
+							anchor: "end",
+							align: "top",
+							// offset: 50,
+
+							font: {
+								weight: "bold",
+								size: "14",
+							},
+						},
+						title: {
+							display: true,
+							text: "Chart.js Line Chart",
+						},
+					},
+				},
+			});
+
+			// Get the bar chart canvas element
+			var barChartCanvas = document.getElementById("barChart").getContext("2d");
+			new Chart(barChartCanvas, {
+				type: "bar",
+				data: barChartData,
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					scales: {
+						y: {
+							beginAtZero: true,
+						},
+					},
+					plugins: {
+
+             datalabels: {
+							color: "transparent",
+							
+						},
+						title: {
+							display: true,
+							text: "Product Wise Users",
+						},
+					},
+				},
+			});
+
+			// Pie chart data
+			var pieChartData = {
+				labels: ["Team Members", "user", "Public Member"],
+				datasets: [
+					{
+						data: [30, 30, 40],
+						backgroundColor: ["#4F81BD", "#C0504D", "#9BBB59"],
+						borderColor: ["#4F81BD", "#C0504D", "#9BBB59"],
+						borderWidth: 1,
+					},
+				],
+			};
+
+			// Get the pie chart canvas element
+			var pieChartCanvas = document.getElementById("pieChart").getContext("2d");
+			new Chart(pieChartCanvas, {
+				type: "pie",
+				data: pieChartData,
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					plugins: {
+						datalabels: {
+							color: "#fff",
+							anchor: "end",
+							align: "start",
+							offset: 50,
+
+							font: {
+								weight: "bold",
+								size: "18",
+							},
+						},
+						title: {
+							display: true,
+							text: "Live User",
+						},
+					},
+				},
+			});
+		</script>
+	</body>
+</html>
